@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.dxb.dao.sys.DatabaseConfigMapper">
+
+    <resultMap type="top.dxb.entity.sys.DatabaseConfig" id="BaseResultMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="jdbcUrl" column="jdbc_url"/>
+        <result property="passwd" column="passwd"/>
+        <result property="userName" column="user_name"/>
+        <result property="beUse" column="be_use"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        a.id,a.name,a.jdbc_url,a.passwd,a.user_name,a.be_use,a.create_time,a.update_time
+    </sql>
+
+    <!-- MyBatisPlus 以下可以删除 -->
+    <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumns"/>
+        from gen_database_config a
+        where a.id = #{id}
+    </select>
+
+    <select id="selectByCondition" parameterType="top.dxb.entity.sys.DatabaseConfig" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumns"/>
+        from gen_database_config a
+        <where>
+            <if test="id != null ">and a.id = #{id}</if>
+            <if test="name != null  and name != '' ">and a.name = #{name}</if>
+            <if test="jdbcUrl != null  and jdbcUrl != '' ">and a.jdbc_url = #{jdbcUrl}</if>
+            <if test="passwd != null  and passwd != '' ">and a.passwd = #{passwd}</if>
+            <if test="userName != null  and userName != '' ">and a.user_name = #{userName}</if>
+            <if test="beUse != null ">and a.be_use = #{beUse}</if>
+            <if test="createTime != null ">and a.create_time = #{createTime}</if>
+            <if test="updateTime != null ">and a.update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="top.dxb.entity.sys.DatabaseConfig">
+        insert into gen_database_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="jdbcUrl != null">jdbc_url,</if>
+            <if test="passwd != null">passwd,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="beUse != null">be_use,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="jdbcUrl != null">#{jdbcUrl},</if>
+            <if test="passwd != null">#{passwd},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="beUse != null">#{beUse},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="top.dxb.entity.sys.DatabaseConfig">
+        update gen_database_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null">id = #{id},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="jdbcUrl != null">jdbc_url = #{jdbcUrl},</if>
+            <if test="passwd != null">passwd = #{passwd},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="beUse != null">be_use = #{beUse},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from gen_database_config where id = #{id}
+    </delete>
+
+    <delete id="deleteBatchIds" parameterType="java.lang.Long">
+        delete from gen_database_config where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

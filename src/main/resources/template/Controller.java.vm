@@ -1,0 +1,111 @@
+package ${package}.controller.${moduleName};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import cn.dongxb.erp.domain.Result;
+
+import java.util.Date;
+
+import ${package}.entity.${moduleName}.${className};
+import ${package}.service.${moduleName}.${className}Service;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@Api(tags = "${comments}")
+@RestController
+@RequestMapping("${moduleName}/${pathName}")
+public class ${className}Controller extends BaseController {
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 查询${comments}
+     */
+    @ApiOperation("查询${comments}列表")
+    @GetMapping
+    public Result page(@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                       @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
+                       @RequestParam(value = "orderByColumn", required = false) String orderByColumn,
+                       @RequestParam(value = "isAsc", required = false, defaultValue = "desc") String isAsc,
+                       @RequestParam(value = "beginTime", required = false) Date beginTime,
+                       @RequestParam(value = "endTime", required = false) Date endTime) {
+        ${className} ${classname} = new ${className}();
+        ${classname}.setBeginTime(beginTime);
+        ${classname}.setEndTime(endTime);
+        String orderBy = SqlUtil.escapeOrderBySql(super.packOrderBy(orderByColumn, isAsc));
+        PageHelper.startPage(pageNum, pageSize, orderBy);
+        List<${className}> list = ${classname}Service.selectByCondition(${classname});
+        return new Result(ResultPage.restPage(list));
+    }
+
+    /**
+     * 获取${comments}详细信息
+     */
+    @ApiOperation("获取${comments}详细信息")
+    @GetMapping("/{id}")
+    public Result get(@PathVariable("id") Long id) {
+        return new Result(${classname}Service.getById(id));
+    }
+
+    /**
+     * 新增${comments}
+     */
+    @Log(title = "业务模块关联流程", businessType = BusinessType.INSERT)
+    @ApiOperation("新增${comments}")
+    @PostMapping
+    public Result insert(@RequestBody ${className} ${classname}) {
+        ${classname} = ${classname}Service.save(${classname});
+        return new Result(${classname});
+    }
+
+    /**
+     * 修改${comments}
+     */
+    @Log(title = "业务模块关联流程", businessType = BusinessType.UPDATE)
+    @ApiOperation("修改${comments}")
+    @PutMapping("/{id}")
+    public Result update(@PathVariable("id") Long id,
+                         @RequestBody ${className} ${classname}) {
+        ${classname}.setId(id);
+        ${classname} = ${classname}Service.updateById(${classname});
+        return new Result(${classname});
+    }
+
+    /**
+     * 删除${comments}
+     */
+    @Log(title = "业务模块关联流程", businessType = BusinessType.DELETE)
+    @ApiOperation("删除${comments}")
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable("id") Long id) {
+        if (id == null) {
+            return new Result("id为空");
+        }
+        boolean delete = ${classname}Service.removeById(id);
+        return new Result(null, delete);
+    }
+
+    /**
+     * 批量删除${comments}
+     * @return 结果
+     */
+    @Log(title = "业务模块关联流程", businessType = BusinessType.DELETE)
+    @ApiOperation("批量删除${comments}")
+    @DeleteMapping
+    public Result deleteAll(@RequestBody List<Long> idList) {
+        if (idList == null || idList.size() != 0) {
+            return new Result("id为空");
+        }
+        boolean delete = ${classname}Service.removeByIds(idList);
+        return new Result(null, delete);
+    }
+}

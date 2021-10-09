@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.dxb.dao.sys.SysConfigMapper">
+
+    <resultMap type="top.dxb.entity.sys.SysConfig" id="BaseResultMap">
+        <result property="id" column="id"/>
+        <result property="configCode" column="config_code"/>
+        <result property="packageName" column="package_name"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="author" column="author"/>
+        <result property="email" column="email"/>
+        <result property="tablePrefix" column="table_prefix"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="beUse" column="be_use"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        a.be_use,a.id,a.config_code,a.package_name,a.module_name,a.author,a.email,a.table_prefix,a.create_time,a.update_time
+    </sql>
+
+    <!-- MyBatisPlus 以下可以删除 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumns"/>
+        from gen_sys_config a
+        where a.id = #{id}
+    </select>
+
+    <select id="selectByCondition" parameterType="top.dxb.entity.sys.SysConfig" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumns"/>
+        from gen_sys_config a
+        <where>
+            <if test="beUse != null ">and a.be_use = #{beUse}</if>
+            <if test="id != null ">and a.id = #{id}</if>
+            <if test="configCode != null  and configCode != '' ">and a.config_code = #{configCode}</if>
+            <if test="packageName != null  and packageName != '' ">and a.package_name = #{packageName}</if>
+            <if test="moduleName != null  and moduleName != '' ">and a.module_name = #{moduleName}</if>
+            <if test="author != null  and author != '' ">and a.author = #{author}</if>
+            <if test="email != null  and email != '' ">and a.email = #{email}</if>
+            <if test="tablePrefix != null  and tablePrefix != '' ">and a.table_prefix = #{tablePrefix}</if>
+            <if test="createTime != null ">and a.create_time = #{createTime}</if>
+            <if test="updateTime != null ">and a.update_time = #{updateTime}</if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="top.dxb.entity.sys.SysConfig">
+        insert into gen_sys_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="configCode != null">config_code,</if>
+            <if test="packageName != null">package_name,</if>
+            <if test="moduleName != null">module_name,</if>
+            <if test="author != null">author,</if>
+            <if test="email != null">email,</if>
+            <if test="tablePrefix != null">table_prefix,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="configCode != null">#{configCode},</if>
+            <if test="packageName != null">#{packageName},</if>
+            <if test="moduleName != null">#{moduleName},</if>
+            <if test="author != null">#{author},</if>
+            <if test="email != null">#{email},</if>
+            <if test="tablePrefix != null">#{tablePrefix},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="top.dxb.entity.sys.SysConfig">
+        update gen_sys_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null">id = #{id},</if>
+            <if test="configCode != null">config_code = #{configCode},</if>
+            <if test="packageName != null">package_name = #{packageName},</if>
+            <if test="moduleName != null">module_name = #{moduleName},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="tablePrefix != null">table_prefix = #{tablePrefix},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from gen_sys_config where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="java.lang.String">
+        delete from gen_sys_config where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

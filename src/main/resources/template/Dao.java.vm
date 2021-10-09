@@ -1,0 +1,62 @@
+package ${package}.mapper.${moduleName};
+
+import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends BaseMapper<${className}> {
+
+    /** MyBatisPlus 以下可以删除 */
+    /**
+     * 查询${comments}
+     *
+     * @param ${pk.attrname} ${comments}ID
+     * @return ${comments}
+     */
+    ${className} getById(${pk.attrType} ${pk.attrname});
+
+    /**
+     * 查询${comments}列表
+     *
+     * @param ${classname} ${comments}
+     * @return ${comments}集合
+     */
+    List<${className}> selectByCondition(${className} ${classname});
+
+    /**
+     * 新增${comments}
+     *
+     * @param ${classname} ${comments}
+     * @return 结果
+     */
+    int insert(${className} ${classname});
+
+    /**
+     * 修改${comments}
+     *
+     * @param ${classname} ${comments}
+     * @return 结果
+     */
+    int update(${className} ${classname});
+
+    /**
+     * 删除${comments}
+     *
+     * @param ${pk.attrname} ${comments}ID
+     * @return 结果
+     */
+    int deleteById(${pk.attrType} ${pk.attrname});
+
+    /**
+     * 批量删除${comments}
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    int deleteBatchIds(@Param("ids") List<Long> ids);
+}
